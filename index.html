@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>finFoil STL export</title>
+
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="shortcut icon" href="/images/favicon.png">
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png">
+
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/modernizr.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="header dark-blue-row">
+  <div class="container row-2">
+    <h1>finFoil STL export</h1>
+  </div>
+</div>
+
+<div class="white-row">
+  <div class="container row-2">
+    <p>
+      By uploading files on this webpage, you agree to the following terms and conditions.
+    </p>
+    <ol>
+      <li>The uploaded files can be used by anybody without any restrictions.</li>
+      <li>The uploaded files are publicly available for anybody to download.</li>
+      <li>No patents apply to the uploaded files.</li>
+    </ol>
+    <p>
+      THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+     LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+     COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+     (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+     HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    </p>
+    <p>
+      If you do not agree with these terms and conditions, please contact me through linkedin: <a href="https://www.linkedin.com/profile/view?id=109445344">https://www.linkedin.com/profile/view?id=109445344</a>.
+    </p>
+  </div>
+</div>
+
+<div class="grey-row">
+  <div class="container row-2">
+    <div class="row clear">
+      <div class="col col-1-2 mobile-full">
+        <h2>Upload Foil file</h2>
+        <input type="file" id="fileinput" class="width-100"/>
+      </div>
+      <div class="col col-1-2 mobile-full">
+        <h2>Download STL file</h2>
+        <p><h6>Permalink:</h6>
+        <pre id="permaLink"></pre></p>
+        <input id="downlBtn" type="button" value="Download" onclick="download()" disabled="true"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- the result of the search will be rendered inside this div -->
+<!--<div id="result"/></div>-->
+
+<div class="white-row">
+  <div class="container row-2">
+    <h2>Preview</h2>
+    <div class="row clear">
+      <div class="col col-1-2 mobile-full">
+        <div class="row clear font-ultra-bold">Outside</div>
+        <div class="row clear"><img id="oImg"/></div>
+      </div>
+      <div class="col col-1-2 mobile-full">
+        <div class="row clear font-ultra-bold">Inside</div>
+        <div class="row clear"><img id="iImg"/></div>
+      </div>
+    </div>
+    <div class="row clear">
+      <div class="col col-1-2 mobile-full">
+        <div class="row clear font-ultra-bold">Profile</div>
+        <div class="row clear"><img id="pImg"/></div>
+      </div>
+      <div class="col col-1-2 mobile-full">
+        <div class="row clear font-ultra-bold">Thickness</div>
+        <div class="row clear"><img id="tImg"/></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/default.js"></script>
+<script src="js/ffserver.js"></script>
+
+<script type="text/javascript">
+
+    $( "#downlBtn" ).attr("disabled", true);
+    var filesUrl = "files";
+    var currentStlFile;
+
+    function loadFile(evt) {
+        //Retrieve the first (and only!) File from the FileList object
+        var f = evt.target.files[0];
+
+        readFile(f, function(content){
+            //$( "#result" ).empty().append( content );
+
+            ffserverImageCall(content, "all", function(data){
+                var dataArray = $.parseJSON(data);
+                document.getElementById("oImg").src = "data:image/png;base64," + dataArray[0];
+                document.getElementById("iImg").src = "data:image/png;base64," + dataArray[1];
+                document.getElementById("pImg").src = "data:image/png;base64," + dataArray[2];
+                document.getElementById("tImg").src = "data:image/png;base64," + dataArray[3];
+            });
+        });
+
+        // Reset currentStlFile
+        currentStlFile = "";
+        $( "#downlBtn" ).attr("disabled", true);
+
+        readFile(f, function(content){
+            $( "#foil" ).empty().append( content );
+
+            ffserverStlCall(content, f.name, function(data){
+                currentFile = filesUrl + data;
+                $( "#downlBtn" ).attr("disabled", false);
+                $( "#permaLink" ).text(currentFile);
+            });
+        });
+    }
+
+    function download() {
+        if (currentFile != "")
+            window.location.href = currentFile;
+    }
+
+    $.support.cors = true;
+    document.getElementById('fileinput').addEventListener('change', loadFile, false);
+</script>
+
+<!-- Analytics -->
+
+</body>
+</html>
