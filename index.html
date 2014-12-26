@@ -57,13 +57,28 @@
     <div class="row clear">
       <div class="col col-1-2 mobile-full">
         <h2>Upload Foil file</h2>
-        <input type="file" id="fileinput" class="width-100"/>
+        <p><input type="file" id="fileinput" class="width-100"/></p>
       </div>
       <div class="col col-1-2 mobile-full">
         <h2>Download STL file</h2>
         <p><h6>Permalink:</h6>
         <pre id="permaLink"></pre></p>
-        <input id="downlBtn" type="button" value="Download" onclick="download()" disabled="true"/>
+
+        <div class="row clear">
+          <div class="col col-5">
+            <input id="downlBtn" type="button" value="Download" onclick="download()" disabled="true"/>
+          </div>
+          <div class="col col-7">
+            Please consider donating a small amount for every exported STL file.
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="MDW6LCDLNG29N">
+            <input type="image" src="https://www.paypalobjects.com/en_US/BE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
