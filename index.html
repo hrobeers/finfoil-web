@@ -15,6 +15,7 @@
 
   <link rel="stylesheet" href="css/style.css">
   <script src="js/modernizr.js"></script>
+  <script src="config.js"></script>
 </head>
 <body>
 
@@ -107,7 +108,6 @@
 <script type="text/javascript">
 
     $( "#downlBtn" ).attr("disabled", true);
-    var filesUrl = "files";
     var currentStlFile;
 
     function loadFile(evt) {
@@ -134,7 +134,7 @@
             $( "#foil" ).empty().append( content );
 
             ffserverStlCall(content, f.name, function(data){
-                currentFile = filesUrl + data;
+                currentFile = config.filesUrl + data;
                 $( "#downlBtn" ).attr("disabled", false);
                 $( "#permaLink" ).text(currentFile);
             });
