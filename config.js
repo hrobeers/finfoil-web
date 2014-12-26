@@ -1,4 +1,4 @@
 var config={
-    wsUrl: "http://localhost:8080",
-    filesUrl: "files"
+    wsUrl: "http://hrobeers.be:8098",
+    filesUrl: "http://hrobeers.be/finfoil"
 };
