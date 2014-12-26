@@ -1,7 +1,7 @@
 
 function ffserverImageCall(foil, projection, dataCallback)
 {
-    var url = config.wsUrl + 'image/' + projection;
+    var url = config.wsUrl + '/image/' + projection;
 
     $.ajax(url, {
         type: "POST",
@@ -21,7 +21,7 @@ function ffserverImageCall(foil, projection, dataCallback)
 
 function ffserverStlCall(foil, fileName, dataCallback)
 {
-    var url = config.wsUrl + 'stl/' + fileName;
+    var url = config.wsUrl + '/stl/' + fileName;
 
     $.ajax(url, {
         type: "POST",
