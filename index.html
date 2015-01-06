@@ -93,21 +93,21 @@
     <div class="row clear">
       <div class="col col-1-2 mobile-full">
         <div class="row clear font-ultra-bold">Outside</div>
-        <div class="row clear"><img id="oImg"/></div>
+        <div class="row clear"><p id="oImg"/></div>
       </div>
       <div class="col col-1-2 mobile-full">
         <div class="row clear font-ultra-bold">Inside</div>
-        <div class="row clear"><img id="iImg"/></div>
+        <div class="row clear"><p id="iImg"/></div>
       </div>
     </div>
     <div class="row clear">
       <div class="col col-1-2 mobile-full">
         <div class="row clear font-ultra-bold">Profile</div>
-        <div class="row clear"><img id="pImg"/></div>
+        <div class="row clear"><p id="pImg"/></div>
       </div>
       <div class="col col-1-2 mobile-full">
         <div class="row clear font-ultra-bold">Thickness</div>
-        <div class="row clear"><img id="tImg"/></div>
+        <div class="row clear"><p id="tImg"/></div>
       </div>
     </div>
   </div>
@@ -119,26 +119,30 @@
 <script src="js/jquery-2.1.1.min.js"></script>
 <script src="js/default.js"></script>
 <script src="js/ffserver.js"></script>
+<script src="js/raphael-min.js"></script>
+<script src="js/patheditor.js"></script>
 
 <script type="text/javascript">
 
     $( "#downlBtn" ).attr("disabled", true);
     var currentStlFile;
 
+    var outsideEditor;
+    var insideEditor;
+    var profileEditor;
+    var thicknessEditor;
+
     function loadFile(evt) {
         //Retrieve the first (and only!) File from the FileList object
         var f = evt.target.files[0];
 
         readFile(f, function(content){
-            //$( "#result" ).empty().append( content );
+            var foil = JSON.parse(content).foil;
 
-            ffserverImageCall(content, "all", function(data){
-                var dataArray = $.parseJSON(data);
-                document.getElementById("oImg").src = "data:image/png;base64," + dataArray[0];
-                document.getElementById("iImg").src = "data:image/png;base64," + dataArray[1];
-                document.getElementById("pImg").src = "data:image/png;base64," + dataArray[2];
-                document.getElementById("tImg").src = "data:image/png;base64," + dataArray[3];
-            });
+            outsideEditor = initPathEditor(outsideEditor, foil.outline.path, "oImg");
+            insideEditor = initPathEditor(insideEditor, foil.outline.path, "iImg");
+            profileEditor = initPathEditor(profileEditor, foil.profile.topProfile, "pImg");
+            thicknessEditor = initPathEditor(thicknessEditor, foil.thickness.topProfile, "tImg");
         });
 
         // Reset currentStlFile
