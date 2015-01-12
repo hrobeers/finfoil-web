@@ -8,13 +8,29 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="shortcut icon" href="/images/favicon.png">
-  <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png">
+  <link rel="shortcut icon" href="img/icons/favicon.ico"> <!--TODO multiple sizes with imagemagic-->
+
+  <link rel="apple-touch-icon" sizes="57x57" href="img/icons/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="img/icons/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="img/icons/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="img/icons/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="img/icons/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="img/icons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="img/icons/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="img/icons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="img/icons/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="img/icons/favicon-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="img/icons/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="img/icons/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="img/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="img/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="img/icons/icon512x512.png" sizes="512x512">
+  <link rel="icon" type="image/png" href="img/icons/icon128x128.png" sizes="128x128">
+  <meta name="msapplication-TileColor" content="#212933">
+  <meta name="msapplication-TileImage" content="img/icons/mstile-144x144.png">
 
   <link rel="stylesheet" href="css/style.css">
-  <script src="js/modernizr.js"></script>
+  <script src="js/lib/modernizr.js"></script>
   <script src="config.js"></script>
 </head>
 <body>
@@ -116,58 +132,12 @@
 
 
 
-<script src="js/jquery-2.1.1.min.js"></script>
-<script src="js/default.js"></script>
+<script src="js/lib/jquery-2.1.1.min.js"></script>
 <script src="js/ffserver.js"></script>
-<script src="js/raphael-min.js"></script>
+<script src="js/lib/raphael-min.js"></script>
 <script src="js/patheditor.js"></script>
 
-<script type="text/javascript">
-
-    $( "#downlBtn" ).attr("disabled", true);
-    var currentStlFile;
-
-    var outsideEditor;
-    var insideEditor;
-    var profileEditor;
-    var thicknessEditor;
-
-    function loadFile(evt) {
-        //Retrieve the first (and only!) File from the FileList object
-        var f = evt.target.files[0];
-
-        readFile(f, function(content){
-            var foil = JSON.parse(content).foil;
-
-            outsideEditor = initPathEditor(outsideEditor, foil.outline.path, "oImg");
-            insideEditor = initPathEditor(insideEditor, foil.outline.path, "iImg");
-            profileEditor = initPathEditor(profileEditor, foil.profile.topProfile, "pImg");
-            thicknessEditor = initPathEditor(thicknessEditor, foil.thickness.topProfile, "tImg");
-        });
-
-        // Reset currentStlFile
-        currentStlFile = "";
-        $( "#downlBtn" ).attr("disabled", true);
-
-        readFile(f, function(content){
-            $( "#foil" ).empty().append( content );
-
-            ffserverStlCall(content, f.name, function(data){
-                currentFile = config.filesUrl + data;
-                $( "#downlBtn" ).attr("disabled", false);
-                $( "#permaLink" ).text(currentFile);
-            });
-        });
-    }
-
-    function download() {
-        if (currentFile != "")
-            window.location.href = currentFile;
-    }
-
-    $.support.cors = true;
-    document.getElementById('fileinput').addEventListener('change', loadFile, false);
-</script>
+<script type="text/javascript" src="js/app.js"></script>
 
 <!-- Analytics -->
 
