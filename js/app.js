@@ -1,7 +1,8 @@
 // $(document).ready(function(){
 
 $( "#downlBtn" ).attr("disabled", true);
-var currentStlFile;
+
+var currentFileName;
 var foil;
 
 var outsideEditor;
@@ -12,6 +13,7 @@ var thicknessEditor;
 function loadFile(evt) {
   //Retrieve the first (and only!) File from the FileList object
   var f = evt.target.files[0];
+  currentFileName = f.name;
 
   readFile(f, function(content){
     foil = JSON.parse(content).foil;
@@ -22,24 +24,19 @@ function loadFile(evt) {
     thicknessEditor = initPathEditor(thicknessEditor, foil.thickness.topProfile, "tImg");
   });
 
-  // Reset currentStlFile
-  currentStlFile = "";
-  $( "#downlBtn" ).attr("disabled", true);
-
-  readFile(f, function(content){
-    $( "#foil" ).empty().append( content );
-
-    ffserverStlCall(content, f.name, function(data){
-      currentFile = config.filesUrl + data;
-      $( "#downlBtn" ).attr("disabled", false);
-      $( "#permaLink" ).text(currentFile);
-    });
-  });
+  $( "#downlBtn" ).attr("disabled", false);
 }
 
 function download() {
-  if (currentFile != "")
-    window.location.href = currentFile;
+  if (currentFileName === "")
+  { /* TODO handle error*/ }
+
+  ffserverStlCall(JSON.stringify(foil), currentFileName, function(data){
+    var stlPath = config.filesUrl + data;
+    $( "#permaLink" ).text(stlPath);
+    window.location.href = stlPath;
+  });
+
 }
 
 document.getElementById('fileinput').addEventListener('change', loadFile, false);
