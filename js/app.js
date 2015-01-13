@@ -1,4 +1,4 @@
-// $(document).ready(function(){
+$(document).ready(function(){
 
 $( "#downlBtn" ).attr("disabled", true);
 
@@ -41,4 +41,4 @@ function download() {
 
 document.getElementById('fileinput').addEventListener('change', loadFile, false);
 
-//});
+});
