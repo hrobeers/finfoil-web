@@ -1,34 +1,51 @@
-function initPathEditor(paper, path, elementID){
+function initPathEditor(editor, pathArray, elementID, editable){
 
     // Initialize or clear the paper
-    if (!isPaper(paper))
-        paper = Raphael(elementID);
+    if (!isPathEditor(editor))
+        editor = new PathEditor(elementID, pathArray, editable);
     else
-        paper.clear();
+        editor.init(elementID, pathArray, editable);
 
-    // Create the path
-    var p = new EditableCurve(paper, path);
-    var bBox = p.getBBox();
-    paper.setViewBox(-5, -(bBox.height+5), paper.width + 10, paper.height + 10);
-    p.initPointHandles();
-
-    // Decorate
-    paper.rect(bBox.x, bBox.y, bBox.width, bBox.height);
-
-    return paper;
+    return editor;
 }
 
-function EditableCurve(paper, pathArray){
+function PathEditor(elementID, pathArray, editable){
+    this.isPathEditor = true;
+    this.initialized = false;
+
+    this.init = function(elementID, pathArray, editable)
+    {
+        if (this.initialized)
+            this.paper.clear();
+
+        this.curve = new EditableCurve(pathArray, this);
+
+        var bBox = this.curve.getBBox();
+        this.paper.setViewBox(-5, -(bBox.height+5), this.paper.width + 10, this.paper.height + 10);
+        this.paper.rect(bBox.x, bBox.y, bBox.width, bBox.height);
+
+        if (editable)
+            this.curve.initPointHandles();
+    }
+
+    this.paper = Raphael(elementID); this.getPaper = function() { return this.paper; }
+    this.init(elementID, pathArray, editable);
+    this.initialized = true;
+}
+
+function EditableCurve(pathArray, parent){
+    this.getPaper = function() { return parent.getPaper(); }
+    this.getCurve = function() { return this; }
+
     this.pathArray = pathArray;
-    this.path = paper.path(pathArray);
+    this.path = this.getPaper().path(pathArray);
     this.handlePathArray = [];
     this.handlePath = {};
-    this.paper = paper;
 
     this.getBBox = function() { return this.path.getBBox(); }
 
     this.initPointHandles = function (){
-        var paper = this.paper;
+        var paper = this.getPaper();
         var curve = this;
         var prevSet;
 
@@ -130,9 +147,9 @@ function PointHandle(paper, curve, elementIdx, pntIdx, handlePathArray){
     this.followingPnts = function() { return this.circle.followingPnts; }
 }
 
-function isPaper(obj){
+function isPathEditor(obj){
     // If it looks like a duck and quacks like a duck, then it is a duck.
     if (typeof(obj)=="undefined") return false;
-    if (typeof(obj.path)=="undefined") return false;
+    if (typeof(obj.isPathEditor)=="undefined") return false;
     return true;
 }

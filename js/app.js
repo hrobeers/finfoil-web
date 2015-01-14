@@ -18,10 +18,10 @@ function loadFile(evt) {
   readFile(f, function(content){
     foil = JSON.parse(content).foil;
 
-    outsideEditor = initPathEditor(outsideEditor, foil.outline.path, "oImg");
-    insideEditor = initPathEditor(insideEditor, foil.outline.path, "iImg");
-    profileEditor = initPathEditor(profileEditor, foil.profile.topProfile, "pImg");
-    thicknessEditor = initPathEditor(thicknessEditor, foil.thickness.topProfile, "tImg");
+    outsideEditor = initPathEditor(outsideEditor, foil.outline.path, "oImg", true);
+    insideEditor = initPathEditor(insideEditor, foil.outline.path, "iImg", false);
+    profileEditor = initPathEditor(profileEditor, foil.profile.topProfile, "pImg", true);
+    thicknessEditor = initPathEditor(thicknessEditor, foil.thickness.topProfile, "tImg", true);
   });
 
   $( "#downlBtn" ).attr("disabled", false);
