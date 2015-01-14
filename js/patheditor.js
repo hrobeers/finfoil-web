@@ -13,24 +13,24 @@ function PathEditor(elementID, pathArray, editable){
     this.isPathEditor = true;
     this.initialized = false;
 
-    this.init = function(elementID, pathArray, editable)
-    {
-        if (this.initialized)
-            this.paper.clear();
-
-        this.curve = new EditableCurve(pathArray, this);
-
-        var bBox = this.curve.getBBox();
-        this.paper.setViewBox(-5, -(bBox.height+5), this.paper.width + 10, this.paper.height + 10);
-        this.paper.rect(bBox.x, bBox.y, bBox.width, bBox.height);
-
-        if (editable)
-            this.curve.initPointHandles();
-    }
-
     this.paper = Raphael(elementID); this.getPaper = function() { return this.paper; }
     this.init(elementID, pathArray, editable);
     this.initialized = true;
+}
+
+PathEditor.prototype.init = function(elementID, pathArray, editable)
+{
+    if (this.initialized)
+        this.paper.clear();
+
+    this.curve = new EditableCurve(pathArray, this);
+
+    var bBox = this.curve.getBBox();
+    this.paper.setViewBox(-5, -(bBox.height+5), this.paper.width + 10, this.paper.height + 10);
+    this.paper.rect(bBox.x, bBox.y, bBox.width, bBox.height);
+
+    if (editable)
+        this.curve.initPointHandles();
 }
 
 function EditableCurve(pathArray, parent){
@@ -41,39 +41,39 @@ function EditableCurve(pathArray, parent){
     this.path = this.getPaper().path(pathArray);
     this.handlePathArray = [];
     this.handlePath = {};
+}
 
-    this.getBBox = function() { return this.path.getBBox(); }
+EditableCurve.prototype.getBBox = function() { return this.path.getBBox(); }
 
-    this.initPointHandles = function (){
-        var paper = this.getPaper();
-        var curve = this;
-        var prevSet;
+EditableCurve.prototype.initPointHandles = function (){
+    var paper = this.getPaper();
+    var curve = this;
+    var prevSet;
 
-        var i=0;
-        while(i<this.pathArray.length){
-            var set;
-            switch (this.pathArray[i].length)
-            {
-            case 3:
-                set = [ new PointHandle(i, 1, this.handlePathArray, this) ];
-                break;
+    var i=0;
+    while(i<this.pathArray.length){
+        var set;
+        switch (this.pathArray[i].length)
+        {
+        case 3:
+            set = [ new PointHandle(i, 1, this.handlePathArray, this) ];
+            break;
 
-            case 7:
-                prevSet.push( new PointHandle(i, 1, this.handlePathArray, this) );
-                prevSet[prevSet.length-2].followingPnts().push(prevSet[prevSet.length-1]);
-                set = [
-                    new PointHandle(i, 2, this.handlePathArray, this),
-                    new PointHandle(i, 3, this.handlePathArray, this)
-                ];
-                set[1].followingPnts().push(set[0]);
-                break;
-            }
-            prevSet = set;
-            i++;
+        case 7:
+            prevSet.push( new PointHandle(i, 1, this.handlePathArray, this) );
+            prevSet[prevSet.length-2].followingPnts().push(prevSet[prevSet.length-1]);
+            set = [
+                new PointHandle(i, 2, this.handlePathArray, this),
+                new PointHandle(i, 3, this.handlePathArray, this)
+            ];
+            set[1].followingPnts().push(set[0]);
+            break;
         }
-        this.handlePath = paper.path().attr({stroke: "#000", "stroke-dasharray": "- "});
-        this.handlePath.attr({path: this.handlePathArray});
+        prevSet = set;
+        i++;
     }
+    this.handlePath = paper.path().attr({stroke: "#000", "stroke-dasharray": "- "});
+    this.handlePath.attr({path: this.handlePathArray});
 }
 
 function PointHandle(elementIdx, pntIdx, handlePathArray, parent){
@@ -144,12 +144,9 @@ function PointHandle(elementIdx, pntIdx, handlePathArray, parent){
     {
         handlePathArray.push(["M", x, y]);
     }
-
-    //
-    // PointHandle methods
-    //
-    this.followingPnts = function() { return this.circle.followingPnts; }
 }
+
+PointHandle.prototype.followingPnts = function() { return this.circle.followingPnts; }
 
 function isPathEditor(obj){
     // If it looks like a duck and quacks like a duck, then it is a duck.
