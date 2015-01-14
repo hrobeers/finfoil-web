@@ -55,15 +55,15 @@ function EditableCurve(pathArray, parent){
             switch (this.pathArray[i].length)
             {
             case 3:
-                set = [ new PointHandle(paper, curve, i, 1, this.handlePathArray) ];
+                set = [ new PointHandle(i, 1, this.handlePathArray, this) ];
                 break;
 
             case 7:
-                prevSet.push( new PointHandle(paper, curve, i, 1, this.handlePathArray) );
+                prevSet.push( new PointHandle(i, 1, this.handlePathArray, this) );
                 prevSet[prevSet.length-2].followingPnts().push(prevSet[prevSet.length-1]);
                 set = [
-                    new PointHandle(paper, curve, i, 2, this.handlePathArray),
-                    new PointHandle(paper, curve, i, 3, this.handlePathArray)
+                    new PointHandle(i, 2, this.handlePathArray, this),
+                    new PointHandle(i, 3, this.handlePathArray, this)
                 ];
                 set[1].followingPnts().push(set[0]);
                 break;
@@ -76,12 +76,15 @@ function EditableCurve(pathArray, parent){
     }
 }
 
-function PointHandle(paper, curve, elementIdx, pntIdx, handlePathArray){
-    // TODO support for "L"
-    var isCubic = (curve.pathArray[elementIdx][0] === "C");
+function PointHandle(elementIdx, pntIdx, handlePathArray, parent){
+    this.getPaper = function() { return parent.getPaper(); }
+    this.getCurve = function() { return parent.getCurve(); }
 
-    var x = curve.pathArray[elementIdx][pntIdx*2-1];
-    var y = curve.pathArray[elementIdx][pntIdx*2];
+    // TODO support for "L"
+    var isCubic = (this.getCurve().pathArray[elementIdx][0] === "C");
+
+    var x = this.getCurve().pathArray[elementIdx][pntIdx*2-1];
+    var y = this.getCurve().pathArray[elementIdx][pntIdx*2];
 
     var handleIdx = handlePathArray.length;
 
@@ -91,10 +94,11 @@ function PointHandle(paper, curve, elementIdx, pntIdx, handlePathArray){
     var discattr = (isCubic && pntIdx < 3) ?
                     {fill: "#aaa", stroke: "#000"}: // ControlPoint
                     {fill: "#fff", stroke: "#000"}; // PathPoint
-    this.circle = paper.circle(x, y, 5).attr(discattr);
+    this.circle = this.getPaper().circle(x, y, 5).attr(discattr);
 
     this.circle.followingPnts = [];
 
+    var curve = this.getCurve();
     this.circle.update = function(x, y){
         var X = this.attr("cx") + x,
             Y = this.attr("cy") + y;
