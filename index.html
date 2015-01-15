@@ -31,7 +31,7 @@
 
   <link rel="stylesheet" href="css/style.css">
   <script src="js/lib/modernizr.js"></script>
-  <script src="config.js"></script>
+  <!--<script src="config.js"></script>-->
 </head>
 <body>
 
@@ -82,7 +82,7 @@
 
         <div class="row clear">
           <div class="col col-5">
-            <input id="downlBtn" type="button" value="Download" onclick="download()" disabled="true"/>
+            <input id="downlBtn" type="button" value="Download" disabled="true"/>
           </div>
           <div class="col col-7">
             Please consider donating a small amount for every exported STL file.
@@ -132,12 +132,10 @@
 
 
 
-<script src="js/lib/jquery-2.1.1.min.js"></script>
-<script src="js/ffserver.js"></script>
 <script src="js/lib/raphael-min.js"></script>
-<script src="js/patheditor.js"></script>
+<script src="js/app/patheditor.js"></script>
 
-<script type="text/javascript" src="js/app.js"></script>
+<script data-main="js/app" src="js/lib/require.js"></script>
 
 <!-- Analytics -->
 

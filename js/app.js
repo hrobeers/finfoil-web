@@ -1,45 +1,19 @@
-//$(document).ready(function(){
+// Place third party dependencies in the lib folder
+//
+// Configure loading modules from the lib directory,
+// except 'app' ones,
 
-var currentFileName;
-var currentFoil;
+requirejs.config({
+  baseUrl: "js/lib",
+  paths: {
+    'app': '../app',
+    'config': '../../config',
+    'jquery': 'jquery-2.1.1.min'
+  },
+  shim: {
+//    'jquery': []
+  }
+});
 
-var outsideEditor;
-var insideEditor;
-var profileEditor;
-var thicknessEditor;
-
-function loadFoil(foil) {
-    outsideEditor = initPathEditor(outsideEditor, foil.outline.path, "oImg", true);
-    insideEditor = initPathEditor(insideEditor, foil.outline.path, "iImg", false);
-    profileEditor = initPathEditor(profileEditor, foil.profile.topProfile, "pImg", true);
-    thicknessEditor = initPathEditor(thicknessEditor, foil.thickness.topProfile, "tImg", true);
-    currentFoil = foil;
-}
-
-function loadFile(evt) {
-  //Retrieve the first (and only!) File from the FileList object
-  var f = evt.target.files[0];
-  currentFileName = f.name;
-
-  readFile(f, function(content){
-    loadFoil(JSON.parse(content).foil);
-  });
-}
-
-function download() {
-  if (currentFileName === "")
-  { /* TODO handle error*/ }
-
-  ffserverStlCall(JSON.stringify(currentFoil), currentFileName, function(data){
-    var stlPath = config.filesUrl + data;
-    $( "#permaLink" ).text(stlPath);
-    window.location.href = stlPath;
-  });
-
-}
-
-document.getElementById('fileinput').addEventListener('change', loadFile, false);
-loadFoil(config.defaultFoil);
-$( "#downlBtn" ).attr("disabled", false);
-
-//});
+// Load the main app module to start the app
+requirejs(["app/main"]);
