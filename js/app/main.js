@@ -1,5 +1,5 @@
 
-define(["config", "app/ffserver"],function(config, ffserver){
+define(["config", "app/ffserver", "app/patheditor"],function(config, ffserver, pe){
 
 var currentFileName;
 var currentFoil;
@@ -10,10 +10,10 @@ var profileEditor;
 var thicknessEditor;
 
 function loadFoil(foil) {
-    outsideEditor = initPathEditor(outsideEditor, foil.outline.path, "oImg", true);
-    insideEditor = initPathEditor(insideEditor, foil.outline.path, "iImg", false);
-    profileEditor = initPathEditor(profileEditor, foil.profile.topProfile, "pImg", true);
-    thicknessEditor = initPathEditor(thicknessEditor, foil.thickness.topProfile, "tImg", true);
+    outsideEditor = pe.initPathEditor(outsideEditor, foil.outline.path, "oImg", true);
+    insideEditor = pe.initPathEditor(insideEditor, foil.outline.path, "iImg", false);
+    profileEditor = pe.initPathEditor(profileEditor, foil.profile.topProfile, "pImg", true);
+    thicknessEditor = pe.initPathEditor(thicknessEditor, foil.thickness.topProfile, "tImg", true);
     currentFoil = foil;
 }
 

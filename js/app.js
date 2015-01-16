@@ -8,10 +8,11 @@ requirejs.config({
   paths: {
     'app': '../app',
     'config': '../../config',
-    'jquery': 'jquery-2.1.1.min'
+    'jquery': 'jquery-2.1.1.min',
+    'raphael': 'raphael-min'
   },
   shim: {
-//    'jquery': []
+    'app/patheditor': ['raphael']
   }
 });
 
