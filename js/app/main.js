@@ -22,7 +22,7 @@ function loadFile(evt) {
   var f = evt.target.files[0];
   currentFileName = f.name;
 
-  readFile(f, function(content){
+  ffserver.readFile(f, function(content){
     loadFoil(JSON.parse(content).foil);
   });
 }
