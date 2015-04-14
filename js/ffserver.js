@@ -3,40 +3,26 @@ function ffserverImageCall(foil, projection, dataCallback)
 {
     var url = config.wsUrl + '/image/' + projection;
 
-    $.ajax(url, {
-        type: "POST",
-        contentType: "application/json",
-        crossDomain: true,
-        data: foil,
-        success: function(data, textStatus, jqXHR)
-        {
+    $.post(url, foil)
+        .done(function(data, textStatus, jqXHR){
             dataCallback(data);
-        },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
             alert("failure");
-        }
-    });
+        });
 }
 
 function ffserverStlCall(foil, fileName, dataCallback)
 {
     var url = config.wsUrl + '/stl/' + fileName;
 
-    $.ajax(url, {
-        type: "POST",
-        contentType: "application/json",
-        crossDomain: true,
-        data: foil,
-        success: function(data, textStatus, jqXHR)
-        {
+    $.post(url, foil)
+        .done(function(data, textStatus, jqXHR){
             dataCallback(data);
-        },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
             alert("failure");
-        }
-    });
+        });
 }
 
 function readFile(f, contentCallback)
