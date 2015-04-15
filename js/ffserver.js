@@ -8,7 +8,7 @@ function ffserverImageCall(foil, projection, dataCallback)
             dataCallback(data);
         })
         .fail(function(jqXHR, textStatus, errorThrown){
-            alert("failure");
+            alert(jqXHR.responseText);
         });
 }
 
@@ -21,7 +21,7 @@ function ffserverStlCall(foil, fileName, dataCallback)
             dataCallback(data);
         })
         .fail(function(jqXHR, textStatus, errorThrown){
-            alert("failure");
+            alert(jqXHR.responseText);
         });
 }
 
