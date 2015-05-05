@@ -1,9 +1,17 @@
+postFin = function(url, data) {
+    return $.ajax({
+        'type': 'POST',
+        'url': url,
+        'contentType': 'application/foil',
+        'data': data
+    });
+};
 
 function ffserverImageCall(foil, projection, dataCallback)
 {
     var url = config.wsUrl + '/image/' + projection;
 
-    $.post(url, foil)
+    postFin(url, foil)
         .done(function(data, textStatus, jqXHR){
             dataCallback(data);
         })
@@ -16,7 +24,7 @@ function ffserverStlCall(foil, fileName, dataCallback)
 {
     var url = config.wsUrl + '/stl/' + fileName;
 
-    $.post(url, foil)
+    postFin(url, foil)
         .done(function(data, textStatus, jqXHR){
             dataCallback(data);
         })
