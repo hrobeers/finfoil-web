@@ -1,42 +1,36 @@
+postFin = function(url, data) {
+    return $.ajax({
+        'type': 'POST',
+        'url': url,
+        'contentType': 'application/foil',
+        'data': data
+    });
+};
 
 function ffserverImageCall(foil, projection, dataCallback)
 {
     var url = config.wsUrl + '/image/' + projection;
 
-    $.ajax(url, {
-        type: "POST",
-        contentType: "application/json",
-        crossDomain: true,
-        data: foil,
-        success: function(data, textStatus, jqXHR)
-        {
+    postFin(url, foil)
+        .done(function(data, textStatus, jqXHR){
             dataCallback(data);
-        },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            alert("failure");
-        }
-    });
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
+            alert(jqXHR.responseText);
+        });
 }
 
 function ffserverStlCall(foil, fileName, dataCallback)
 {
     var url = config.wsUrl + '/stl/' + fileName;
 
-    $.ajax(url, {
-        type: "POST",
-        contentType: "application/json",
-        crossDomain: true,
-        data: foil,
-        success: function(data, textStatus, jqXHR)
-        {
+    postFin(url, foil)
+        .done(function(data, textStatus, jqXHR){
             dataCallback(data);
-        },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            alert("failure");
-        }
-    });
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
+            alert(jqXHR.responseText);
+        });
 }
 
 function readFile(f, contentCallback)
