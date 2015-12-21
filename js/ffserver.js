@@ -22,6 +22,7 @@ function ffserverImageCall(foil, projection, dataCallback)
 
 function ffserverStlCall(foil, fileName, dataCallback)
 {
+    fileName = fileName.replace(" ", ""); // remove whitespace
     var url = config.wsUrl + '/stl/' + fileName;
 
     postFin(url, foil)
