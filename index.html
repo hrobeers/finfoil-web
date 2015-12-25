@@ -163,8 +163,8 @@
     document.getElementById('fileinput').addEventListener('change', loadFile, false);
 
     // Force http otherwise mixed content error
-    if (window.location.protocol != "https:")
-      window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+    if (window.location.protocol != "http:")
+      window.location.href = "http:" + window.location.href.substring(window.location.protocol.length);
 </script>
 
 <!-- Analytics -->
