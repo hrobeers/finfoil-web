@@ -21,7 +21,6 @@
 
 
 
-
 <div class="header dark-blue-row">
   <div class="container row-2">
     <h1>finFoil STL export</h1>
@@ -121,6 +120,9 @@
 <script src="js/ffserver.js"></script>
 
 <script type="text/javascript">
+    var protocol = jQuery.url.attr("protocol");
+    if (protocol != "http:")
+      window.location.href = "http:" + window.location.href.substring(protocol.length);
 
     $( "#downlBtn" ).attr("disabled", true);
     var currentStlFile;
