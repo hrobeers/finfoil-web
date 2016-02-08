@@ -1,4 +1,4 @@
 var config={
-    wsUrl: "http://hrobeers.be:4000",
-    filesUrl: "http://hrobeers.be/finfoil"
+    wsUrl: "http://finfoil.io/s",
+    filesUrl: "http://finfoil.io/s"
 };
